@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="dashstyle.css">
+</head>
+<body class="dashboard-body">
+
+  
+  <header class="topbar">
+    <h1>Welcome, <span id="usernameDisplay">User</span> 👋</h1>
+    <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+  </header>
+
+  
+  <main class="dashboard-main">
+  
+    <section class="stats">
+      <div class="card">
+        <h3>Total Blogs</h3>
+        <p id="totalBlogs">0</p>
+      </div>
+    </section>
+   
+    <section class="add-blog">
+      <h2>Add New Blog</h2>
+      <form id="blogForm">
+        <input type="text" id="blogTitle" placeholder="Enter blog title" required>
+        <textarea id="blogContent" placeholder="Write your blog..." required></textarea>
+        <button type="submit">Add Blog</button>
+      </form>
+    </section>
+
+    <section class="blog-list">
+      <h2>My Blogs</h2>
+      <div id="blogsContainer"></div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+  <script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+      let loggedInUser = localStorage.getItem("loggedInUser");
+      if (!loggedInUser) {
+        window.location.href = "index.html"; // not logged in
+        return;
+      }
+
+      try {
+        let userObj = JSON.parse(loggedInUser);
+        document.getElementById("usernameDisplay").innerText = userObj.username || "User";
+      } catch {
+        document.getElementById("usernameDisplay").innerText = loggedInUser;
+      }
+    });
+
+    function logout() {
+      localStorage.removeItem("loggedInUser");
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>
